@@ -29,6 +29,22 @@ namespace JWT_WebAPI.Controllers
             _configuration = configuration;
         }
         [HttpPost]
+        [Route("Register")]
+        public async Task<IActionResult> Register([FromBody] RegisterModel model)
+        {
+            User user = new User()
+            {
+                UserName = model.Username,
+                SecurityStamp = Guid.NewGuid().ToString()
+            };
+            var result = await userManager.CreateAsync(user,model.Password);
+            if (!result.Succeeded)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,new Response { Status= "Error", Message="Registration failed!"});
+            }
+            return Ok(new Response { Status = "Success", Message = "Registered Successfully!" });
+        }
+        [HttpPost]
         [Route("Login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
