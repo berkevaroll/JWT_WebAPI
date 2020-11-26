@@ -75,7 +75,7 @@ namespace JWT_WebAPI.Controllers
 
                 });
             }
-            return Unauthorized();
+            return Unauthorized(new Response { Status = "Error", Message = "Invalid username or password!" });
         }
     }
 }
